@@ -1,6 +1,6 @@
 {
   "name": "LearnKora",
-  "type":"module",
+  "type": "module",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,6 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@koa/router": "^12.0.0",
+    "jsonwebtoken": "^9.0.2",
     "koa": "^2.14.2"
   }
 }
