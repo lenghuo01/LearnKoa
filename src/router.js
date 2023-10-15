@@ -59,7 +59,7 @@ router.get('/:filename',(ctx)=>{
 })
 
 //注册逻辑
-router.post('/api/register',async(ctx)=>{
+router.post('/register',async(ctx)=>{
   const {username,password}=ctx.request.body
   if(username&&password){
    const result= await createUser({name:username,pwd:password})
@@ -76,7 +76,7 @@ router.post('/api/register',async(ctx)=>{
     }
   }
 })
-router.get('/api/img/list',async(ctx)=>{
+router.get('/img/list',async(ctx)=>{
   const {pageSize,pageNum}=ctx.query
   const result= await getList(pageSize,pageNum)
   ctx.body={
@@ -86,7 +86,7 @@ router.get('/api/img/list',async(ctx)=>{
   }
 })
 //上传图片
-router.post('/api/img/upload',async(ctx)=>{
+router.post('/img/upload',async(ctx)=>{
   const filename=ctx.request.files.file.newFilename
   const size=ctx.request.files.file.size
   const type=ctx.request.files.file.mimetype
@@ -104,7 +104,7 @@ router.post('/api/img/upload',async(ctx)=>{
     msg:'ok'
   }
 })
-router.get('/api/download/:filename', (ctx) => {
+router.get('/download/:filename', (ctx) => {
   const filename = ctx.params.filename
   // http://127.0.0.1:3000/download/tuchuang_6c8b1d3803e1ff2cc4168fb00.png
   const filePath = path.join(process.cwd(), `upload/${filename}`)

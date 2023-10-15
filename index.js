@@ -2,11 +2,21 @@ import Koa from'koa'
 import router from './src/router.js'
 import { valid } from './src/middleware/valid.js'
 import {koaBody} from 'koa-body'
+import Kstatic from 'koa-static'
+import Kmount from 'koa-mount'
+import cors from '@koa/cors'
+import path from 'node:path'
+import fs from 'node:fs'
+const apiApp=new Koa()
+const staticApp=new Koa()
 const server=new Koa()
-
+const testApp=new Koa()
 //验证用户信息
 //server.use(valid)
-server.use(koaBody(
+apiApp.use(cors())
+staticApp.use(Kstatic(`${process.cwd()}/front`))
+//解决刷新notfond问题
+apiApp.use(koaBody(
     {
         //启动
         multipart:true,
@@ -23,8 +33,16 @@ server.use(koaBody(
     }
 ))
 //处理业务逻辑
-server.use(router.routes()).use(router.allowedMethods())
-
+apiApp.use(router.routes()).use(router.allowedMethods())
+server.use(Kmount('/api',apiApp))
+server.use(Kmount('/',staticApp))
+server.use((ctx)=>{
+    const filename = 'index.html'
+      const filePath = path.join(process.cwd(), `front/${filename}`)
+      ctx.set('Content-Type','text/html;')
+      const fileRS = fs.createReadStream(filePath)
+      ctx.body = fileRS
+})
 server.listen(8080,'0.0.0.0',()=>{
     console.log('后端服务器启动')
 })
