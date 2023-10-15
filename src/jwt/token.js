@@ -4,7 +4,7 @@ const secret='femvfd'
 function createToken(id){
     return jwt.sign({userid:id,exp:Math.floor(Date.now()/1000)+(/**多少秒后过期 */60*60)},secret)
 }
-console.log(createToken('pwj'))
+//console.log(createToken('pwj'))
 //验证token
 function validToken(token)
 {

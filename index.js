@@ -5,18 +5,19 @@ import {koaBody} from 'koa-body'
 const server=new Koa()
 
 //验证用户信息
-server.use(valid)
+//server.use(valid)
 server.use(koaBody(
     {
         //启动
         multipart:true,
         formidable:{
             uploadDir:`${process.cwd()}/upload`,//位置
-            maxFieldsSize:2*1024*1024,//2gb,
+            maxFieldsSize:2*1024*1024*1024,//2gb,
             keepExtensions:true,//文件后缀
             onFileBegin:(name,file)=>{
                 const fileName=`tuchuang_${file.newFilename}`//file.newfilename文件原名称
                 file.filepath=`${file.filepath.replace(file.newFilename,fileName)}`
+                file.newFilename=fileName
             }
         }
     }
